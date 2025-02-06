@@ -56,27 +56,23 @@
 
             // 8. Поиск объекта с максимальным углом
             Console.WriteLine("\n8. Поиск объекта с максимальным углом:");
-            DialClock[] clocks = new DialClock[]
-            {
-                new DialClock(3, 0),
-                new DialClock(6, 0),
-                new DialClock(9, 0),
-                new DialClock(12, 0)
-            };
 
+            Random random = new Random();
+            int size = 10;
+            DialClockArray clocks = new DialClockArray(size, random);
             DialClock maxAngleClock = null;
             double maxAngle = 0;
-
-            foreach (DialClock clock in clocks)
+            for(int i = 0; i < size; i ++)
             {
-                double angle = clock.CalculateAngle();
+                double angle = clocks[i].CalculateAngle();
                 if (angle > maxAngle)
                 {
                     maxAngle = angle;
-                    maxAngleClock = clock;
+                    maxAngleClock = clocks[i];
                 }
             }
             Console.WriteLine($"Объект с максимальным углом: {maxAngleClock.hours}:{maxAngleClock.minutes}, угол: {maxAngle}");
+            
         }
     }
 }
