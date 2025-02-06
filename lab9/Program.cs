@@ -60,19 +60,8 @@
             Random random = new Random();
             int size = 10;
             DialClockArray clocks = new DialClockArray(size, random);
-            DialClock maxAngleClock = null;
-            double maxAngle = 0;
-            for(int i = 0; i < size; i ++)
-            {
-                double angle = clocks[i].CalculateAngle();
-                if (angle > maxAngle)
-                {
-                    maxAngle = angle;
-                    maxAngleClock = clocks[i];
-                }
-            }
-            Console.WriteLine($"Объект с максимальным углом: {maxAngleClock.hours}:{maxAngleClock.minutes}, угол: {maxAngle}");
-            
+            DialClock maxAngleClock = clocks.FindMaxAngleClock();
+
         }
     }
 }
