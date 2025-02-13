@@ -70,15 +70,8 @@ namespace lab9
         // Статический метод для вычисления угла
         public static double GetAngleBetweenHands(int hours, int minutes)
         {
-            if (hours < 0 || hours > 23)
-                throw new ArgumentException("Hours should be in range from 0 to 23.");
-            if (minutes < 0 || minutes > 59)
-                throw new ArgumentException("Minutes should be in range from 0 to 59.");
-
-            double hourAngle = ((hours % 12) + (minutes / 60.0)) * 30;
-            double minuteAngle = minutes * 6;
-            double angle = Math.Abs(hourAngle - minuteAngle);
-            return Math.Min(angle, 360 - angle);
+            DialClock staticClock = new DialClock(hours, minutes);
+            return staticClock.GetAngleBetweenHands();
         }
 
         // Статический метод для получения количества объектов

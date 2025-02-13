@@ -20,10 +20,10 @@
             // 2. Вычисление угла между стрелками
             Console.WriteLine("\n2. Вычисление угла между стрелками:");
             double angle1 = clock2.GetAngleBetweenHands();
+            double staticAngle = DialClock.GetAngleBetweenHands(11, 54);
             Printer.PrintAngle(angle1, "Угол для Clock2: ");
-
-            double angleStatic = DialClock.GetAngleBetweenHands(6, 0);
-            Printer.PrintAngle(angleStatic, "Статический угол для 6:00 -  ");
+            
+            Printer.PrintAngle(staticAngle, "Статический -");
 
             // 3. Унарные операции ++ и --
             Console.WriteLine("\n3. Унарные операции ++ и --:");
