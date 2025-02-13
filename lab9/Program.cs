@@ -9,29 +9,29 @@
             // 1. Создание объектов с помощью конструкторов
             Console.WriteLine("\n1. Создание объектов:");
             DialClock clock1 = new DialClock(); // Конструктор без параметров
-            Console.WriteLine($"Clock1 (конструктор без параметров): {clock1.hours}:{clock1.minutes}");
+            Printer.PrintDialClock(clock1, "Clock1 (конструктор без параметров): ");
 
-            DialClock clock2 = new DialClock(15, 30); // Конструктор с параметрами
-            Console.WriteLine($"Clock2 (конструктор с параметрами): {clock2.hours}:{clock2.minutes}");
+            DialClock clock2 = new DialClock(11, 59); // Конструктор с параметрами
+            Printer.PrintDialClock(clock2, "Clock2 (конструктор с параметрами): ");
 
             DialClock clock3 = new DialClock(clock2); // Конструктор копирования
-            Console.WriteLine($"Clock3 (конструктор копирования): {clock3.hours}:{clock3.minutes}");
+            Printer.PrintDialClock(clock3, "Clock3 (конструктор копирования): ");
 
             // 2. Вычисление угла между стрелками
             Console.WriteLine("\n2. Вычисление угла между стрелками:");
-            double angle1 = clock2.CalculateAngle();
-            Console.WriteLine($"Угол для Clock2: {angle1} градусов");
+            double angle1 = clock2.GetAngleBetweenHands();
+            Printer.PrintAngle(angle1, "Угол для Clock2: ");
 
-            double angleStatic = DialClock.CalculateAngleStatic(6, 0);
-            Console.WriteLine($"Статический угол для 6:00: {angleStatic} градусов");
+            double angleStatic = DialClock.GetAngleBetweenHands(6, 0);
+            Printer.PrintAngle(angleStatic, "Статический угол для 6:00 -  ");
 
             // 3. Унарные операции ++ и --
             Console.WriteLine("\n3. Унарные операции ++ и --:");
             DialClock incrementedClock = ++clock2;
-            Console.WriteLine($"Clock2 после ++: {incrementedClock.hours}:{incrementedClock.minutes}");
+            Printer.PrintDialClock(incrementedClock, "Clock2 после ++: ");
 
             DialClock decrementedClock = --clock2;
-            Console.WriteLine($"Clock2 после --: {decrementedClock.hours}:{decrementedClock.minutes}");
+            Printer.PrintDialClock(decrementedClock, "Clock2 после --: ");
 
             // 4. Операции приведения типа
             Console.WriteLine("\n4. Операции приведения типа:");
@@ -44,24 +44,56 @@
             // 5. Бинарные операции + и -
             Console.WriteLine("\n5. Бинарные операции + и -: ");
             DialClock addedClock = clock2 + 45; // Добавление минут
-            Console.WriteLine($"Clock2 + 45 минут: {addedClock.hours}:{addedClock.minutes}");
+            Printer.PrintDialClock(addedClock, "Clock2 + 45 минут: ");
+            
+            DialClock addedClock2 = 45 + clock2; // Добавление минут
+            Printer.PrintDialClock(addedClock2, "45 минут + clock2: ");
 
             DialClock minusedClock = clock2 - 30; // Вычитание минут
-            Console.WriteLine($"Clock2 - 30 минут: {minusedClock.hours}:{minusedClock.minutes}");
+            Printer.PrintDialClock(minusedClock, "Clock2 - 30 минут: ");
+            
+            DialClock minusedClock2 = clock2 - 30; // Вычитание минут
+            Printer.PrintDialClock(minusedClock2, "30 минут - clock2: ");
 
+            // 7. Создание массива разными способами
+            Console.WriteLine("\n7. Создание массива разными способами:");
+            Random random = new Random();
+            int size = 4;
+
+            // Массив с случайными значениями
+            DialClockArray randomClocks = new DialClockArray(size, random);
+            Console.WriteLine("\nМассив с случайными значениями:");
+            Printer.PrintDialClockArray(randomClocks);
+            
+            DialClockArray manualClocks = new DialClockArray(size);
+            Console.WriteLine("\nВведите значения для массива (часы и минуты):");
+            for (int i = 0; i < size; i++)
+            {
+                Console.Write($"Введите часы для элемента [{i}]: ");
+                int hours = int.Parse(Console.ReadLine());
+                Console.Write($"Введите минуты для элемента [{i}]: ");
+                int minutes = int.Parse(Console.ReadLine());
+                manualClocks[i] = new DialClock(hours, minutes);
+            }
+            Console.WriteLine("\nМассив с ручным вводом:");
+            Printer.PrintDialClockArray(manualClocks);
+
+            // 8. Глубокое копирование
+            Console.WriteLine("\n8. Глубокое копирование:");
+            DialClockArray copiedClocks = new DialClockArray(randomClocks);
+            Console.WriteLine("Скопированный массив:");
+            Printer.PrintDialClockArray(copiedClocks);
+
+            // 9. Поиск объекта с максимальным углом
+            Console.WriteLine("\n9. Поиск объекта с максимальным углом:");
+            DialClock maxAngleClock = randomClocks.FindMaxAngleClock();
+            Printer.PrintMaxAngleClock(maxAngleClock);
+            
             // 6. Статический счетчик объектов
             Console.WriteLine("\n6. Статический счетчик объектов:");
             int objectCount = DialClock.GetObjectsCount();
-            Console.WriteLine($"Количество созданных объектов: {objectCount}");
-
-            // 8. Поиск объекта с максимальным углом
-            Console.WriteLine("\n8. Поиск объекта с максимальным углом:");
-
-            Random random = new Random();
-            int size = 10;
-            DialClockArray clocks = new DialClockArray(size, random);
-            DialClock maxAngleClock = clocks.FindMaxAngleClock();
-
+            int collectionCount = DialClockArray.GetCollectionsCount();
+            Printer.PrintStatistics(objectCount, collectionCount);
         }
     }
 }

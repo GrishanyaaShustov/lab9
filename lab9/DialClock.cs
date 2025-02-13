@@ -1,168 +1,181 @@
-namespace lab9;
-
-public class DialClock
+namespace lab9
 {
-    // Закрытые атрибуты
-    private int hoursAtribute; // Часы (0-23)
-    private int minutesAtribute; // Минуты (0-59)
-
-    // Статическая переменная для подсчёта объектов
-    private static int objectsCount = 0;
-
-    // Свойства для доступа к часам и минутам
-    public int hours
+    public class DialClock
     {
-        get { return hoursAtribute; }
-        set
+        // Закрытые атрибуты
+        private int _hours; // Часы (0-23)
+        private int _minutes; // Минуты (0-59)
+
+        // Статическая переменная для подсчёта объектов
+        private static int _objectsCount = 0;
+
+        // Свойства для доступа к часам и минутам
+        public int Hours
         {
-            if (value >= 0 && value <= 23)
-                hoursAtribute = value;
+            get { return _hours; }
+            set
+            {
+                if (value >= 0 && value <= 23)
+                    _hours = value;
+                else
+                    throw new ArgumentException("Hours should be in range from 0 to 23.");
+            }
+        }
+
+        public int Minutes
+        {
+            get { return _minutes; }
+            set
+            {
+                if (value >= 0 && value <= 59)
+                    _minutes = value;
+                else
+                    throw new ArgumentException("Minutes should be in range from 0 to 59.");
+            }
+        }
+
+        // Конструктор без параметров
+        public DialClock()
+        {
+            Hours = 0;
+            Minutes = 0;
+            _objectsCount++;
+        }
+
+        // Конструктор с параметрами
+        public DialClock(int hours, int minutes)
+        {
+            Hours = hours;
+            Minutes = minutes;
+            _objectsCount++;
+        }
+
+        // Конструктор копирования
+        public DialClock(DialClock other)
+        {
+            Hours = other.Hours;
+            Minutes = other.Minutes;
+            _objectsCount++;
+        }
+
+        // Метод для вычисления угла между стрелками
+        public double GetAngleBetweenHands()
+        {
+            double hourAngle = ((_hours % 12) + (_minutes / 60.0)) * 30; // Угол часовой стрелки
+            double minuteAngle = _minutes * 6; // Угол минутной стрелки
+            double angle = Math.Abs(hourAngle - minuteAngle);
+            return Math.Min(angle, 360 - angle); // Возврат угла от 0 до 180
+        }
+
+        // Статический метод для вычисления угла
+        public static double GetAngleBetweenHands(int hours, int minutes)
+        {
+            if (hours < 0 || hours > 23)
+                throw new ArgumentException("Hours should be in range from 0 to 23.");
+            if (minutes < 0 || minutes > 59)
+                throw new ArgumentException("Minutes should be in range from 0 to 59.");
+
+            double hourAngle = ((hours % 12) + (minutes / 60.0)) * 30;
+            double minuteAngle = minutes * 6;
+            double angle = Math.Abs(hourAngle - minuteAngle);
+            return Math.Min(angle, 360 - angle);
+        }
+
+        // Статический метод для получения количества объектов
+        public static int GetObjectsCount()
+        {
+            return _objectsCount;
+        }
+
+        // Оператор ++
+        public static DialClock operator ++(DialClock dc)
+        {
+            // Создаем копию объекта
+            DialClock incremented = new DialClock(dc);
+
+            // Увеличиваем минуты
+            if (incremented.Minutes == 59) // Если минуты равны 59, переходим к следующему часу
+            {
+                incremented.Minutes = 0; // Обнуляем минуты
+                if (incremented.Hours == 23) // Если часы равны 23, переходим к полночи (0 часов)
+                {
+                    incremented.Hours = 0;
+                }
+                else
+                {
+                    incremented.Hours++; // Увеличиваем часы на 1
+                }
+            }
             else
-                throw new ArgumentException("Hours should be in diapason from 0 to 23");
-        }
-    }
+            {
+                incremented.Minutes++; // Просто увеличиваем минуты
+            }
 
-    public int minutes
-    {
-        get { return minutesAtribute; }
-        set
+            return incremented;
+        }
+
+        // Оператор --
+        public static DialClock operator --(DialClock dc)
         {
-            if (value >= 0 && value <= 59)
-                minutesAtribute = value;
+            // Создаем копию объекта
+            DialClock decremented = new DialClock(dc);
+
+            // Уменьшаем минуты
+            if (decremented.Minutes == 0) // Если минуты равны 0, нужно перейти к предыдущему часу
+            {
+                decremented.Minutes = 59; // Устанавливаем минуты в 59
+                if (decremented.Hours == 0) // Если часы равны 0, переходим к последнему часу (23)
+                {
+                    decremented.Hours = 23;
+                }
+                else
+                {
+                    decremented.Hours--; // Уменьшаем часы на 1
+                }
+            }
             else
-                throw new ArgumentException("Minutes should be in diapason from 0 to 59");
+            {
+                decremented.Minutes--; // Просто уменьшаем минуты
+            }
+            return decremented;
         }
-    }
 
-    // Конструктор без параметров
-    public DialClock()
-    {
-        this.hoursAtribute = 0;
-        this.minutesAtribute = 0;
-        objectsCount++;
-    }
-
-    // Конструктор с параметрами
-    public DialClock(int hours, int minutes)
-    {
-        this.hoursAtribute = hours;
-        this.minutesAtribute = minutes;
-        objectsCount++;
-    }
-
-    // Конструктор копирования
-    public DialClock(DialClock other)
-    {
-        this.hoursAtribute = other.hours;
-        this.minutesAtribute = other.minutes;
-        objectsCount++;
-    }
-
-    // Метод для вычисления угла между стрелками (как метод класса)
-    public double CalculateAngle()
-    {
-        double hourAngle = (hours % 12 + minutes / 60.0) * 30; // 30 градусов на час
-
-        double minuteAngle = minutes * 6; // 6 градусов на минуту
-        
-        double angle = Math.Abs(hourAngle - minuteAngle);
-
-        
-        return Math.Min(angle, 360 - angle); // возврат угла от 0 до 180
-    }
-
-    // Статический метод для вычисления угла
-    public static double CalculateAngleStatic(int hours, int minutes)
-    {
-        // Проверка корректности входных данных
-        if (hours < 0 || hours > 23)
+        // Явное приведение к bool
+        public static explicit operator bool(DialClock dc)
         {
-            throw new ArgumentException("Hours should be in diapason from 0 to 23.");
+            double angle = dc.GetAngleBetweenHands();
+            return angle % 2.5 == 0;
         }
-        if (minutes < 0 || minutes > 59)
+
+        // Неявное приведение к int
+        public static implicit operator int(DialClock dc)
         {
-            throw new ArgumentException("Minutes should be in diapason from 0 to 59.");
+            return (dc.Hours % 12) * 60 + dc.Minutes;
         }
 
-        // Вычисление угла между стрелками
-        double hourAngle = (hours % 12 + minutes / 60.0) * 30; // Угол часовой стрелки
-        double minuteAngle = minutes * 6; // Угол минутной стрелки
-
-        // Разница между углами
-        double angle = Math.Abs(hourAngle - minuteAngle);
-        
-        return Math.Min(angle, 360 - angle); // возврат угла от 0 до 180
-    }
-    
-    // Статический метод для получения количества объектов
-    public static int GetObjectsCount()
-    {
-        return objectsCount;
-    }
-    
-    public static DialClock operator ++(DialClock dc)
-    {
-        DialClock dcIncremented = new DialClock(dc);
-        dcIncremented.minutesAtribute++;
-        if (dcIncremented.minutesAtribute == 60)
+        // Бинарные операции
+        public static DialClock operator +(DialClock dc, int minutesToAdd)
         {
-            dcIncremented.minutesAtribute = 0;
-            dcIncremented.hoursAtribute++;
-            if (dcIncremented.hoursAtribute == 24)
-                dcIncremented.hoursAtribute = 0;
+            int totalMinutes = (dc.Hours % 12) * 60 + dc.Minutes + minutesToAdd;
+            totalMinutes = (totalMinutes + 720) % 720; // Обработка переполнения
+            return new DialClock(totalMinutes / 60, totalMinutes % 60);
         }
-        return dcIncremented;
-    }
-    
-    public static DialClock operator --(DialClock dc)
-    {
-        DialClock dcDecremented = new DialClock(dc);
-        dcDecremented.minutesAtribute--;
-        if (dcDecremented.minutesAtribute == -1)
+
+        public static DialClock operator -(DialClock dc, int minutesToMinus)
         {
-            dcDecremented.minutesAtribute = 59;
-            dcDecremented.hoursAtribute--;
-            if (dcDecremented.hoursAtribute == -1)
-                dcDecremented.hoursAtribute = 23;
+            int totalMinutes = (dc.Hours % 12) * 60 + dc.Minutes - minutesToMinus;
+            totalMinutes = (totalMinutes + 720) % 720; // Обработка переполнения
+            return new DialClock(totalMinutes / 60, totalMinutes % 60);
         }
-        return dcDecremented;
-    }
-    
-    public static explicit operator bool(DialClock dc)
-    {
-        double angle = dc.CalculateAngle();
-        return angle % 2.5 == 0;
-    }
-    
-    public static implicit operator int(DialClock dc)
-    {
-        int totalMinutes = dc.hours * 60 + dc.minutes;
-        return totalMinutes;
-    }
-    
-    // Бинарные операции
-    public static DialClock operator +(DialClock dc, int minutesToAdd)
-    {
-        int totalMinutes = dc.hours * 60 + dc.minutes + minutesToAdd;
-        totalMinutes = (totalMinutes % 1440 + 1440) % 1440; // Обработка переполнения
-        return new DialClock(totalMinutes / 60, totalMinutes % 60);
-    }
 
-    public static DialClock operator -(DialClock dc, int minutesToMinus)
-    {
-        int totalMinutes = dc.hours * 60 + dc.minutes - minutesToMinus;
-        totalMinutes = (totalMinutes % 1440 + 1440) % 1440; // Обработка переполнения
-        return new DialClock(totalMinutes / 60, totalMinutes % 60);
-    }
+        public static DialClock operator +(int minutesToAdd, DialClock dc)
+        {
+            return dc + minutesToAdd;
+        }
 
-    public static DialClock operator +(int minutesToAdd, DialClock dc)
-    {
-        return dc + minutesToAdd;
+        public static DialClock operator -(int minutesToMinus, DialClock dc)
+        {
+            return dc - minutesToMinus;
+        }
     }
-
-    public static DialClock operator -(int minutesToMinus, DialClock dc)
-    {
-        return dc - minutesToMinus;
-    }
-    
 }

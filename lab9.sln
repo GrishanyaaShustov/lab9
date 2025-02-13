@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lab9", "lab9\lab9.csproj", "{2C34546E-08DC-4C6D-8D5F-1E142C0BB968}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestsLab9", "UnitTestsLab9\UnitTestsLab9.csproj", "{135BC068-BBD0-4639-B7D2-A8CFBB2EB236}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestsDialClock", "UnitTestsDialClock\UnitTestsDialClock.csproj", "{4ABC35F0-C3CD-46DF-81B2-5B32472A54D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,9 +14,9 @@ Global
 		{2C34546E-08DC-4C6D-8D5F-1E142C0BB968}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C34546E-08DC-4C6D-8D5F-1E142C0BB968}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C34546E-08DC-4C6D-8D5F-1E142C0BB968}.Release|Any CPU.Build.0 = Release|Any CPU
-		{135BC068-BBD0-4639-B7D2-A8CFBB2EB236}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{135BC068-BBD0-4639-B7D2-A8CFBB2EB236}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{135BC068-BBD0-4639-B7D2-A8CFBB2EB236}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{135BC068-BBD0-4639-B7D2-A8CFBB2EB236}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ABC35F0-C3CD-46DF-81B2-5B32472A54D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ABC35F0-C3CD-46DF-81B2-5B32472A54D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ABC35F0-C3CD-46DF-81B2-5B32472A54D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ABC35F0-C3CD-46DF-81B2-5B32472A54D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
